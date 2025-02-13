@@ -7,7 +7,7 @@ public class BookStoreServer {
         try {
             LocateRegistry.createRegistry(1099);
             BookStoreImplement bookStore = new BookStoreImplement();
-            Naming.rebind("rmi://host:1099/BookStoreService", bookStore);
+            Naming.rebind("rmi://localhost:1099/BookStoreService", bookStore);
             System.out.println("BookStore Server is running...");
         } catch (Exception e) {
             System.err.println("Server exception: " + e.toString());
