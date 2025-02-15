@@ -1,2 +1,2 @@
-# bookstore-rmi
-Simple remote bookstore management system using Java RMI and MySQL
+# Bookstore Remote
+Simple remote bookstore management system using RPC and Java RMI
