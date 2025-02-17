@@ -1,10 +1,8 @@
 package rmi;
 
-import rmi.RMIServiceImplement;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 
-@SuppressWarnings("unused")
 public class RMIServer {
     public static void main(String[] args) {
         try {
