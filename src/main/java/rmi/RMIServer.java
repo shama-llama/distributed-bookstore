@@ -1,14 +1,17 @@
-package rmiserver;
-import java.rmi.Naming;
-import java.rmi.registry.LocateRegistry;
+package rmi;
 
-public class BookStoreServer {
+import rmi.RMIServiceImplement;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
+
+@SuppressWarnings("unused")
+public class RMIServer {
     public static void main(String[] args) {
         try {
-            LocateRegistry.createRegistry(1099);
-            BookStoreImplement bookStore = new BookStoreImplement();
-            Naming.rebind("rmi://localhost:1099/BookStoreService", bookStore);
-            System.out.println("BookStore Server is running...");
+            Registry registry = LocateRegistry.createRegistry(1099);
+            RMIServiceImplement service = new RMIServiceImplement();
+            registry.rebind("BookstoreService", service);
+            System.out.println("RMI Server ready");
         } catch (Exception e) {
             System.err.println("Server exception: " + e.toString());
             e.printStackTrace();
