@@ -1,4 +1,3 @@
-// BookstoreRPCServiceImpl.java (RPC Implementation)
 package rpc;
 
 import dao.BookDAO;

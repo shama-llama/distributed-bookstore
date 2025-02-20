@@ -1,4 +1,3 @@
-// BookstoreRPCService.java (RPC Interface)
 package rpc;
 
 import jakarta.jws.WebMethod;

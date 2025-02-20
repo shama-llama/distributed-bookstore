@@ -1,4 +1,3 @@
-// RPCServer.java (Publishes the WebService)
 package rpc;
 
 import jakarta.xml.ws.Endpoint;
@@ -10,7 +9,7 @@ public class RPCServer {
             String address = "http://localhost:8888/bookstore";
             RPCServiceImplement service = new RPCServiceImplement();
             Endpoint.publish(address, service);
-            System.out.println("RPC Service running at " + address);
+            System.out.println("RPC Service running at " + address); 
         } catch (SQLException e) {
             System.err.println("Failed to start RPC Server: " + e.getMessage());
             e.printStackTrace();
