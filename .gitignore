@@ -1,2 +1,12 @@
 .vscode/
-target/
+
+bookstore-server/target/
+bookstore-server/pom.xml.tag
+bookstore-server/pom.xml.releaseBackup
+bookstore-server/pom.xml.versionsBackup
+bookstore-server/pom.xml.next
+bookstore-server/release.properties
+bookstore-server/dependency-reduced-pom.xml
+bookstore-server/buildNumber.properties
+bookstore-server/.mvn/timing.properties
+bookstore-server/.mvn/wrapper/maven-wrapper.jar
