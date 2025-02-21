@@ -1,7 +1,9 @@
 package model;
 
+import jakarta.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
 
+@XmlRootElement
 public class Book implements Serializable {
     private String isbn;
     private String title;
