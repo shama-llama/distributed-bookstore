@@ -10,8 +10,7 @@
   <version>1.0-SNAPSHOT</version>
   <packaging>war</packaging>
 
-  <name>bookstore-server</name>
-  <!-- FIXME change it to the project's website -->
+  <name>dbs-server</name>
   <url>http://www.distributed-bookstore.com</url>
 
   <properties>
