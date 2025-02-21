@@ -10,3 +10,14 @@ bookstore-server/dependency-reduced-pom.xml
 bookstore-server/buildNumber.properties
 bookstore-server/.mvn/timing.properties
 bookstore-server/.mvn/wrapper/maven-wrapper.jar
+
+bookstore-admin/target/
+bookstore-admin/pom.xml.tag
+bookstore-admin/pom.xml.releaseBackup
+bookstore-admin/pom.xml.versionsBackup
+bookstore-admin/pom.xml.next
+bookstore-admin/release.properties
+bookstore-admin/dependency-reduced-pom.xml
+bookstore-admin/buildNumber.properties
+bookstore-admin/.mvn/timing.properties
+bookstore-admin/.mvn/wrapper/maven-wrapper.jar
