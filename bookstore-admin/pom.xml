@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
 <project xmlns="http://maven.apache.org/POM/4.0.0"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
@@ -35,34 +36,12 @@
   </dependencies>
 
   <build>
+    <finalName>bookstore-admin</finalName>
     <pluginManagement><!-- lock down plugins versions to avoid using Maven defaults (may be moved to
       parent pom) -->
       <plugins>
         <!-- clean lifecycle, see
         https://maven.apache.org/ref/current/maven-core/lifecycles.html#clean_Lifecycle -->
-        <!-- Generate JAX-WS client classes -->
-        <plugin>
-          <groupId>org.codehaus.mojo</groupId>
-          <artifactId>jaxws-maven-plugin</artifactId>
-          <version>2.6</version>
-          <executions>
-            <execution>
-              <id>admin</id>
-              <phase>generate-sources</phase>
-              <goals>
-                <goal>wsimport</goal>
-              </goals>
-              <configuration>
-                <sourceDestDir>${project.build.directory}/generated-sources/jaxws</sourceDestDir>
-                <wsdlUrls>
-                  <wsdlUrl>http://localhost:8888/bookstore?wsdl</wsdlUrl>
-                </wsdlUrls>
-                <packageName>com.distributed-bookstore.service</packageName>
-              </configuration>
-            </execution>
-          </executions>
-        </plugin>
-
         <plugin>
           <artifactId>maven-clean-plugin</artifactId>
           <version>3.4.0</version>
@@ -105,5 +84,28 @@
         </plugin>
       </plugins>
     </pluginManagement>
+    <plugins>
+      <plugin>
+        <groupId>com.sun.xml.ws</groupId>
+        <artifactId>jaxws-maven-plugin</artifactId>
+        <version>4.0.3</version>
+        <executions>
+          <execution>
+            <id>generate-sources</id>
+            <phase>generate-sources</phase>
+            <goals>
+              <goal>wsimport</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <wsdlUrls>
+            <wsdlUrl>http://localhost:8080/bookstore?wsdl</wsdlUrl>
+          </wsdlUrls>
+          <packageName>service</packageName>
+          <sourceDestDir>${project.build.directory}/generated-sources</sourceDestDir>
+        </configuration>
+      </plugin>
+    </plugins>
   </build>
 </project>
