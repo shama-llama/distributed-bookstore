@@ -3,6 +3,7 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,6 +22,7 @@ import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableModel;
 
 import com.opencsv.CSVReader;
+import com.opencsv.exceptions.CsvValidationException;
 
 import service.RPCServiceInterface;
 import service.RPCServiceImplementService;
@@ -80,14 +82,13 @@ public class AdminClient extends JFrame {
         JButton submitButton = new JButton("Create Book");
         submitButton.addActionListener(e -> {
             try {
-                Book book = new Book(
-                        isbnField.getText(),
-                        titleField.getText(),
-                        authorField.getText(),
-                        Integer.parseInt(yearField.getText()),
-                        Double.parseDouble(priceField.getText()),
-                        Integer.parseInt(quantityField.getText())
-                );
+                Book book = new Book();
+                book.setIsbn(isbnField.getText());
+                book.setTitle(titleField.getText());
+                book.setAuthor(authorField.getText());
+                book.setYear(Integer.parseInt(yearField.getText()));
+                book.setPrice(Double.parseDouble(priceField.getText()));
+                book.setQuantity(Integer.parseInt(quantityField.getText()));
 
                 boolean success = service.createBook(book);
                 if (success) {
@@ -118,7 +119,7 @@ public class AdminClient extends JFrame {
         searchPanel.add(searchButton);
 
         // Table setup
-        String[] columns = {"ISBN", "Title", "Author", "Year", "Price", "Quantity"};
+        String[] columns = { "ISBN", "Title", "Author", "Year", "Price", "Quantity" };
         tableModel = new DefaultTableModel(columns, 0);
         booksTable = new JTable(tableModel);
         JScrollPane scrollPane = new JScrollPane(booksTable);
@@ -173,8 +174,9 @@ public class AdminClient extends JFrame {
         return panel;
     }
 
-    private void addFormRow(JPanel panel, GridBagConstraints gbc, 
-                           String label, JComponent field, int row) {
+    // Helper methods remain the same
+    private void addFormRow(JPanel panel, GridBagConstraints gbc,
+            String label, JComponent field, int row) {
         gbc.gridy = row;
         gbc.gridx = 0;
         panel.add(new JLabel(label), gbc);
@@ -191,7 +193,7 @@ public class AdminClient extends JFrame {
     private void updateTable(List<Book> books) {
         tableModel.setRowCount(0);
         for (Book book : books) {
-            tableModel.addRow(new Object[]{
+            tableModel.addRow(new Object[] {
                     book.getIsbn(),
                     book.getTitle(),
                     book.getAuthor(),
@@ -210,11 +212,11 @@ public class AdminClient extends JFrame {
             if (book != null) {
                 JOptionPane.showMessageDialog(this,
                         "ISBN: " + book.getIsbn() + "\n" +
-                        "Title: " + book.getTitle() + "\n" +
-                        "Author: " + book.getAuthor() + "\n" +
-                        "Year: " + book.getYear() + "\n" +
-                        "Price: " + book.getPrice() + "\n" +
-                        "Quantity: " + book.getQuantity());
+                                "Title: " + book.getTitle() + "\n" +
+                                "Author: " + book.getAuthor() + "\n" +
+                                "Year: " + book.getYear() + "\n" +
+                                "Price: " + book.getPrice() + "\n" +
+                                "Quantity: " + book.getQuantity());
             }
         }
     }
@@ -234,28 +236,32 @@ public class AdminClient extends JFrame {
     }
 
     private void processCSV(String filePath) {
-        // Implement CSV parsing and bulk upload
-        // Example using OpenCSV:
         try (CSVReader reader = new CSVReader(new FileReader(filePath))) {
             List<Book> books = new ArrayList<>();
             String[] nextLine;
+
             while ((nextLine = reader.readNext()) != null) {
-                Book book = new Book(
-                        nextLine[0], // ISBN
-                        nextLine[1], // Title
-                        nextLine[2], // Author
-                        Integer.parseInt(nextLine[3]), // Year
-                        Double.parseDouble(nextLine[4]), // Price
-                        Integer.parseInt(nextLine[5]) // Quantity
-                );
+                Book book = new Book();
+                book.setIsbn(nextLine[0]);
+                book.setTitle(nextLine[1]);
+                book.setAuthor(nextLine[2]);
+                book.setYear(Integer.parseInt(nextLine[3]));
+                book.setPrice(Double.parseDouble(nextLine[4]));
+                book.setQuantity(Integer.parseInt(nextLine[5]));
                 books.add(book);
             }
+
             boolean success = service.bulkUploadBooks(books);
             if (success) {
                 JOptionPane.showMessageDialog(this, "Bulk upload successful!");
+                updateTable(service.searchBooks("")); // Refresh table
             }
-        } catch (Exception ex) {
-            JOptionPane.showMessageDialog(this, "Error processing CSV: " + ex.getMessage());
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "Invalid number format in CSV");
+        } catch (IOException | CsvValidationException e) {
+            JOptionPane.showMessageDialog(this, "Error reading file: " + e.getMessage());
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Error: " + e.getMessage());
         }
     }
 
