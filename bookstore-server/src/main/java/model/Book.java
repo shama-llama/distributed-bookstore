@@ -1,7 +1,8 @@
 package model;
 
-import jakarta.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
+
+import jakarta.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
 public class Book implements Serializable {
@@ -12,8 +13,10 @@ public class Book implements Serializable {
     private double price;
     private int quantity;
 
+    // Required no-arg constructor for JAXB
     public Book() {}
 
+    // Parameterized constructor
     public Book(String isbn, String title, String author, int year, double price, int quantity) {
         this.isbn = isbn;
         this.title = title;
