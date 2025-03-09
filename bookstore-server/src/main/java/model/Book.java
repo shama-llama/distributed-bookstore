@@ -1,7 +1,6 @@
 package model;
 
 import java.io.Serializable;
-
 import jakarta.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
