@@ -1,6 +1,7 @@
 package model;
 
-public class Book {
+import java.io.Serializable;
+public class Book implements Serializable {
     private String isbn;
     private String title;
     private String author;
@@ -8,6 +9,7 @@ public class Book {
     private double price;
     private int quantity;
 
+    // Required no-arg constructor for JAXB
     public Book() {}
 
     // Parameterized constructor
