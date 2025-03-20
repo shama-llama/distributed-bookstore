@@ -10,8 +10,8 @@ import java.util.List;
 public class RMIServiceImplement extends UnicastRemoteObject implements RMIServiceInterface {
     private final BookDAO bookDAO;
 
-    public RMIServiceImplement() throws RemoteException, SQLException {
-        super();
+    public RMIServiceImplement(int port) throws RemoteException, SQLException {
+        super(4000);
         this.bookDAO = BookDAO.getInstance();
     }
 
