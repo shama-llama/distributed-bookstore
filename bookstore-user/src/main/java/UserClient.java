@@ -148,7 +148,7 @@ public class UserClient extends JFrame {
     }
 
     private void showBookDetails() {
-        int row = ((JTable)getContentPane().getComponent(1)).getSelectedRow();
+        int row = ((JTable)((JScrollPane)getContentPane().getComponent(1)).getViewport().getView()).getSelectedRow();
         if (row >= 0) {
             String isbn = (String) tableModel.getValueAt(row, 0);
             try {
@@ -164,7 +164,7 @@ public class UserClient extends JFrame {
     }
 
     private void updateDetailFields(Book book) {
-        Component[] components = ((JPanel)getContentPane().getComponent(2)).getComponents();
+        Component[] components = ((JPanel)((JPanel)getContentPane().getComponent(2)).getComponent(0)).getComponents();
         ((JTextField) components[1]).setText(book.getIsbn());
         ((JTextField) components[3]).setText(book.getTitle());
         ((JTextField) components[5]).setText(book.getAuthor());
