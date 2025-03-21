@@ -24,9 +24,9 @@ import javax.swing.table.DefaultTableModel;
 import com.opencsv.CSVReader;
 import com.opencsv.exceptions.CsvValidationException;
 
-import service.RPCServiceInterface;
-import service.RPCServiceImplementService;
 import service.Book;
+import service.RPCServiceImplementService;
+import service.RPCServiceInterface;
 
 public class AdminClient extends JFrame {
     private final RPCServiceInterface service;
@@ -122,6 +122,8 @@ public class AdminClient extends JFrame {
         String[] columns = { "ISBN", "Title", "Author", "Year", "Price", "Quantity" };
         tableModel = new DefaultTableModel(columns, 0);
         booksTable = new JTable(tableModel);
+        updateTable(service.searchBooks("")); // Load all books by default
+
         JScrollPane scrollPane = new JScrollPane(booksTable);
 
         // Action buttons

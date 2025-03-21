@@ -37,8 +37,8 @@ public class UserClient extends JFrame {
             Registry registry = LocateRegistry.getRegistry("localhost", 1099);
             rmiService = (RMIServiceInterface) registry.lookup("BookstoreService");
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Error connecting to server: " + e.getMessage(), 
-                "Connection Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Error connecting to server: " + e.getMessage(),
+                    "Connection Error", JOptionPane.ERROR_MESSAGE);
             System.exit(1);
         }
     }
@@ -54,13 +54,13 @@ public class UserClient extends JFrame {
         searchField = new JTextField(30);
         JButton searchButton = new JButton("Search");
         searchButton.addActionListener(e -> searchBooks());
-        
+
         searchPanel.add(new JLabel("Search:"));
         searchPanel.add(searchField);
         searchPanel.add(searchButton);
 
         // Book Table
-        String[] columns = {"ISBN", "Title", "Author", "Year", "Price", "Quantity"};
+        String[] columns = { "ISBN", "Title", "Author", "Year", "Price", "Quantity" };
         tableModel = new DefaultTableModel(columns, 0);
         JTable bookTable = new JTable(tableModel);
         bookTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -74,14 +74,14 @@ public class UserClient extends JFrame {
         JLabel yearLabel = new JLabel("Year:");
         JLabel priceLabel = new JLabel("Price:");
         JLabel quantityLabel = new JLabel("Quantity:");
-        
+
         JTextField detailIsbn = new JTextField();
         JTextField detailTitle = new JTextField();
         JTextField detailAuthor = new JTextField();
         JTextField detailYear = new JTextField();
         JTextField detailPrice = new JTextField();
         JTextField detailQuantity = new JTextField();
-        
+
         detailIsbn.setEditable(false);
         detailTitle.setEditable(false);
         detailAuthor.setEditable(false);
@@ -118,28 +118,31 @@ public class UserClient extends JFrame {
         // Main Layout
         add(searchPanel, BorderLayout.NORTH);
         add(new JScrollPane(bookTable), BorderLayout.CENTER);
-        
+
         JPanel rightPanel = new JPanel(new BorderLayout());
         rightPanel.add(detailsPanel, BorderLayout.NORTH);
         rightPanel.add(purchasePanel, BorderLayout.SOUTH);
         add(rightPanel, BorderLayout.EAST);
 
         setLocationRelativeTo(null);
+
+        // Load all books by default
+        searchBooks();
     }
 
     private void searchBooks() {
         try {
             List<Book> books = rmiService.searchBooks(searchField.getText().trim());
             tableModel.setRowCount(0);
-            
+
             for (Book book : books) {
-                tableModel.addRow(new Object[]{
-                    book.getIsbn(),
-                    book.getTitle(),
-                    book.getAuthor(),
-                    book.getYear(),
-                    String.format("$%.2f", book.getPrice()),
-                    book.getQuantity()
+                tableModel.addRow(new Object[] {
+                        book.getIsbn(),
+                        book.getTitle(),
+                        book.getAuthor(),
+                        book.getYear(),
+                        String.format("$%.2f", book.getPrice()),
+                        book.getQuantity()
                 });
             }
         } catch (Exception e) {
@@ -148,7 +151,7 @@ public class UserClient extends JFrame {
     }
 
     private void showBookDetails() {
-        int row = ((JTable)((JScrollPane)getContentPane().getComponent(1)).getViewport().getView()).getSelectedRow();
+        int row = ((JTable) ((JScrollPane) getContentPane().getComponent(1)).getViewport().getView()).getSelectedRow();
         if (row >= 0) {
             String isbn = (String) tableModel.getValueAt(row, 0);
             try {
@@ -164,7 +167,7 @@ public class UserClient extends JFrame {
     }
 
     private void updateDetailFields(Book book) {
-        Component[] components = ((JPanel)((JPanel)getContentPane().getComponent(2)).getComponent(0)).getComponents();
+        Component[] components = ((JPanel) ((JPanel) getContentPane().getComponent(2)).getComponent(0)).getComponents();
         ((JTextField) components[1]).setText(book.getIsbn());
         ((JTextField) components[3]).setText(book.getTitle());
         ((JTextField) components[5]).setText(book.getAuthor());
@@ -176,37 +179,37 @@ public class UserClient extends JFrame {
     private void purchaseBook() {
         String isbn = isbnField.getText().trim();
         String quantityText = quantityField.getText().trim();
-        
+
         if (isbn.isEmpty() || quantityText.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Please enter ISBN and quantity", 
-                "Input Error", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Please enter ISBN and quantity",
+                    "Input Error", JOptionPane.WARNING_MESSAGE);
             return;
         }
 
         try {
             int quantity = Integer.parseInt(quantityText);
             boolean success = rmiService.purchaseBook(isbn, quantity);
-            
+
             if (success) {
-                JOptionPane.showMessageDialog(this, "Purchase successful!", 
-                    "Success", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Purchase successful!",
+                        "Success", JOptionPane.INFORMATION_MESSAGE);
                 searchBooks(); // Refresh results
             } else {
-                JOptionPane.showMessageDialog(this, "Purchase failed - insufficient stock", 
-                    "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Purchase failed - insufficient stock",
+                        "Error", JOptionPane.ERROR_MESSAGE);
             }
         } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(this, "Invalid quantity format", 
-                "Input Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Invalid quantity format",
+                    "Input Error", JOptionPane.ERROR_MESSAGE);
         } catch (Exception e) {
             showError("Purchase Error", e);
         }
     }
 
     private void showError(String title, Exception e) {
-        JOptionPane.showMessageDialog(this, 
-            "Error: " + e.getMessage(), 
-            title, JOptionPane.ERROR_MESSAGE);
+        JOptionPane.showMessageDialog(this,
+                "Error: " + e.getMessage(),
+                title, JOptionPane.ERROR_MESSAGE);
         e.printStackTrace();
     }
 
