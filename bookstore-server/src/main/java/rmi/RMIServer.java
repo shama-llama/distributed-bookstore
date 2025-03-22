@@ -4,7 +4,7 @@ import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 
 public class RMIServer {
-    private static String IP_ADDR = "192.168.70.125";
+    private static String IP_ADDR = "localhost";
     
     public static void main(String[] args) {
         try {
