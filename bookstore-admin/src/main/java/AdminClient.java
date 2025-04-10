@@ -178,7 +178,7 @@ public class AdminClient extends JFrame {
 
     // Helper methods remain the same
     private void addFormRow(JPanel panel, GridBagConstraints gbc,
-            String label, JComponent field, int row) {
+                            String label, JComponent field, int row) {
         gbc.gridy = row;
         gbc.gridx = 0;
         panel.add(new JLabel(label), gbc);
