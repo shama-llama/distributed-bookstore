@@ -1,35 +1,17 @@
-.vscode/
+target/
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+dependency-reduced-pom.xml
+buildNumber.properties
+.mvn/timing.properties
+# https://maven.apache.org/wrapper/#usage-without-binary-jar
+.mvn/wrapper/maven-wrapper.jar
 
-bookstore-server/target/
-bookstore-server/pom.xml.tag
-bookstore-server/pom.xml.releaseBackup
-bookstore-server/pom.xml.versionsBackup
-bookstore-server/pom.xml.next
-bookstore-server/release.properties
-bookstore-server/dependency-reduced-pom.xml
-bookstore-server/buildNumber.properties
-bookstore-server/.mvn/timing.properties
-bookstore-server/.mvn/wrapper/maven-wrapper.jar
-bookstore-server/src/main/generated-source/
-
-bookstore-admin/target/
-bookstore-admin/pom.xml.tag
-bookstore-admin/pom.xml.releaseBackup
-bookstore-admin/pom.xml.versionsBackup
-bookstore-admin/pom.xml.next
-bookstore-admin/release.properties
-bookstore-admin/dependency-reduced-pom.xml
-bookstore-admin/buildNumber.properties
-bookstore-admin/.mvn/timing.properties
-bookstore-admin/.mvn/wrapper/maven-wrapper.jar
-
-bookstore-user/target/
-bookstore-user/pom.xml.tag
-bookstore-user/pom.xml.releaseBackup
-bookstore-user/pom.xml.versionsBackup
-bookstore-user/pom.xml.next
-bookstore-user/release.properties
-bookstore-user/dependency-reduced-pom.xml
-bookstore-user/buildNumber.properties
-bookstore-user/.mvn/timing.properties
-bookstore-user/.mvn/wrapper/maven-wrapper.jar
+# Eclipse m2e generated files
+# Eclipse Core
+.project
+# JDT-specific (Eclipse Java Development Tools)
+.classpath
