@@ -19,7 +19,7 @@ The server has a dual-service architecture for showcasing two distinct types of 
 
 The User Client connects to the server using Java RMI, allowing it to invoke methods on server-side objects as if they were local. The communication between the User Client and the Server follows a standard RMI layered architecture.
 
-![RMI Layered Architecture](/assets/rmi-layered-architecture.png)
+![RMI Layered Architecture](/assets/rmi.png)
 
 - **Application Layer:** Represents the `User Client` and the `Server`'s service coordination logic.
 - **Stubs:** Acts as a client's local representative or proxy for the remote object. In RMI, a stub for a remote object implements the same set of remote interfaces that a remote object implements.
