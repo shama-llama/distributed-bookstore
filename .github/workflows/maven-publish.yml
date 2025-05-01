@@ -12,9 +12,38 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    services:
+      mariadb:
+        image: mariadb:10.11
+        ports:
+          - 3306:3306
+        env:
+          MARIADB_ROOT_PASSWORD: root_password
+          MARIADB_DATABASE: bookstore
+        options: >-
+          --health-cmd="mysqladmin ping --silent"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=5
 
     steps:
     - uses: actions/checkout@v4
+
+    - name: Install MySQL Client
+      run: sudo apt-get update && sudo apt-get install -y mysql-client
+
+    - name: Create books table
+      run: |
+        mysql -h 127.0.0.1 -P 3306 -u root -proot_password bookstore <<EOF
+        CREATE TABLE books (
+            isbn VARCHAR(13) PRIMARY KEY,
+            title VARCHAR(255) NOT NULL,
+            author VARCHAR(255) NOT NULL,
+            year INT NOT NULL,
+            price DECIMAL(10,2) NOT NULL,
+            quantity INT NOT NULL DEFAULT 0
+        );
+        EOF
 
     - name: Set up JDK 21
       uses: actions/setup-java@v4
@@ -23,17 +52,16 @@ jobs:
         distribution: 'temurin'
         cache: maven
 
-    # Build bookstore-server
     - name: Build bookstore-server
       working-directory: ./bookstore-server
       run: mvn -B package --file pom.xml
 
-    # Start RPC server in the background
-    - name: Start RPC server
+    # Start RPC server and wait for it to be ready
+    - name: Start RPC server and wait
       working-directory: ./bookstore-server
       run: |
         mvn exec:java -Dexec.mainClass="rpc.RPCServer" &
-        sleep 10
+        timeout 60s bash -c 'while ! curl -s --fail http://localhost:8080/bookstore?wsdl > /dev/null; do echo "Waiting for server..."; sleep 5; done'
 
     # Build bookstore-admin
     - name: Build bookstore-admin
