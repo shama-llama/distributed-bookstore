@@ -64,6 +64,28 @@ JAX-WS is the protocol is used by the Admin Client. This is more standardized an
 
 ![Admin Client GUI](/assets/admin.png)
 
+## Project Setup
+
+1. Clone the Repository
+
+    ```bash
+    git clone git git@github.com:shama-llama/distributed-bookstore.git
+    cd distributed-bookstore
+    ```
+
+2. Build Modules
+
+    ```bash
+    # Build server
+    mvn clean install -f bookstore-server/pom.xml
+    
+    # Build admin client
+    mvn clean install -f bookstore-admin/pom.xml
+    
+    # Build user client
+    mvn clean install -f bookstore-user/pom.xml
+    ```
+
 ## Database Setup
 
 1. Install MariaDB
@@ -115,28 +137,6 @@ JAX-WS is the protocol is used by the Admin Client. This is more standardized an
     db.url=jdbc:mysql://localhost:3306/bookstore
     db.user=root
     db.password=root_password
-    ```
-
-## Project Setup
-
-1. Clone the Repository
-
-    ```bash
-    git clone git git@github.com:shama-llama/distributed-bookstore.git
-    cd distributed-bookstore
-    ```
-
-2. Build Modules
-
-    ```bash
-    # Build server
-    mvn clean install -f bookstore-server/pom.xml
-    
-    # Build admin client
-    mvn clean install -f bookstore-admin/pom.xml
-    
-    # Build user client
-    mvn clean install -f bookstore-user/pom.xml
     ```
 
 ## Running the Application
