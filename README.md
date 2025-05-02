@@ -66,112 +66,112 @@ JAX-WS is the protocol is used by the Admin Client. This is more standardized an
 
 ## Database Setup
 
-### 1. Install MariaDB
+1. Install MariaDB
 
-```bash
-sudo dnf install mariadb-server
-```
+    ```bash
+    sudo dnf install mariadb-server
+    ```
 
-### 2. Start MariaDB service
+2. Start MariaDB service
 
-```bash
-sudo systemctl start mariadb
-```
+    ```bash
+    sudo systemctl start mariadb
+    ```
 
-### 3. Secure Installation
+3. Secure Installation
 
-```bash
-sudo mysql_secure_installation
-```
+    ```bash
+    sudo mysql_secure_installation
+    ```
 
-### 4. Create Bookstore
+4. Create Bookstore
 
-```sql
-mysql -u root -p
+    ```sql
+    mysql -u root -p
+    
+    CREATE DATABASE bookstore DEFAULT CHARACTER SET utf8mb4 COLLATE     utf8mb4_unicode_ci;
+    ```
 
-CREATE DATABASE bookstore DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-```
+5. Create Books
 
-### 5. Create Books
+    ```sql
+    USE bookstore;
 
-```sql
-USE bookstore;
+    CREATE TABLE books (
+        isbn VARCHAR(13) PRIMARY KEY,
+        title VARCHAR(255) NOT NULL,
+        author VARCHAR(255) NOT NULL,
+        year INT NOT NULL,
+        price DECIMAL(10,2) NOT NULL,
+        quantity INT NOT NULL DEFAULT 0
+    );
+    ```
 
-CREATE TABLE books (
-    isbn VARCHAR(13) PRIMARY KEY,
-    title VARCHAR(255) NOT NULL,
-    author VARCHAR(255) NOT NULL,
-    year INT NOT NULL,
-    price DECIMAL(10,2) NOT NULL,
-    quantity INT NOT NULL DEFAULT 0
-);
-```
+6. Update DB Configuration
 
-### 6. Update DB Configuration
+    Edit `bookstore-server/src/main/resources/db.properties`:
 
-Edit `bookstore-server/src/main/resources/db.properties`:
-
-```properties
-db.url=jdbc:mysql://localhost:3306/bookstore
-db.user=root
-db.password=root_password
-```
+    ```properties
+    db.url=jdbc:mysql://localhost:3306/bookstore
+    db.user=root
+    db.password=root_password
+    ```
 
 ## Project Setup
 
-### 1. Clone the Repository
+1. Clone the Repository
 
-```bash
-git clone git git@github.com:shama-llama/distributed-bookstore.git
-cd distributed-bookstore
-```
+    ```bash
+    git clone git git@github.com:shama-llama/distributed-bookstore.git
+    cd distributed-bookstore
+    ```
 
-### 2. Build Modules
+2. Build Modules
 
-```bash
-# Build server
-mvn clean install -f bookstore-server/pom.xml
-
-# Build admin client
-mvn clean install -f bookstore-admin/pom.xml
-
-# Build user client
-mvn clean install -f bookstore-user/pom.xml
-```
+    ```bash
+    # Build server
+    mvn clean install -f bookstore-server/pom.xml
+    
+    # Build admin client
+    mvn clean install -f bookstore-admin/pom.xml
+    
+    # Build user client
+    mvn clean install -f bookstore-user/pom.xml
+    ```
 
 ## Running the Application
 
-### 1. Start the RMI Server
+1. Start the RMI Server
 
-```bash
-cd bookstore-server
-mvn exec:java -Dexec.mainClass="rmi.RMIServer"
-```
+    ```bash
+    cd bookstore-server
+    mvn exec:java -Dexec.mainClass="rmi.RMIServer"
+    ```
 
-> The RMI server will start on port 1099.
+    > The RMI server will start on port 1099.
 
-### 2. Start the RPC Server
+2. Start the RPC Server
 
-```bash
-cd bookstore-server
-mvn exec:java -Dexec.mainClass="rpc.RPCServer"
-```
+    ```bash
+    cd bookstore-server
+    mvn exec:java -Dexec.mainClass="rpc.RPCServer"
+    ```
 
-> The RPC server will start on port 8080.
+    > The RPC server will start on port 8080.
 
-### 3. Run the Admin Client
+3. Run the Admin Client
 
-```bash
-cd bookstore-admin
-mvn exec:java -Dexec.mainClass="AdminClient"
-```
+    ```bash
+    cd bookstore-admin
+    mvn exec:java -Dexec.mainClass="AdminClient"
+    ```
 
-### 4. Run the User Client
+4. Run the User Client
 
-```bash
-cd bookstore-user
-mvn exec:java -Dexec.mainClass="UserClient"
-```
+    ```bash
+    cd bookstore-user
+    mvn exec:java -Dexec.mainClass="UserClient"
+    ```
 
 ## Troubleshooting
 
